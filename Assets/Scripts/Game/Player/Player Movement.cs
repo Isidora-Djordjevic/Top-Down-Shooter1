@@ -10,9 +10,13 @@ using UnityEngine.InputSystem;
         private Vector2 _movementInput;
         private Vector2 _smoothedMovementInput;
         private Vector2 _movementInputSmoothVelocity;
+        private Camera _camera;
 
     [SerializeField]
     private float _rotationSpeed;
+
+    [SerializeField]
+    private float _screenBorder;
 
     //ovo polje mozemo da podesimo iz Unity Editor-a
     [SerializeField]
@@ -23,6 +27,7 @@ using UnityEngine.InputSystem;
         {
             //nalazi komponentu rigidBody2D s naseg objekta
             _rigidbody = GetComponent<Rigidbody2D>();
+            _camera = Camera.main;
         }
 
         private void FixedUpdate()
@@ -45,6 +50,26 @@ using UnityEngine.InputSystem;
 
         //brzina kretanja
         _rigidbody.velocity = _movementInput * _speed;
+        PreventPlayerGoingOffScreen();
+    }
+
+    private void PreventPlayerGoingOffScreen()
+    {
+        Vector2 screenPosition = _camera.WorldToScreenPoint(transform.position);
+        if((screenPosition.x < _screenBorder && _rigidbody.velocity.x<0) || 
+            (screenPosition.x>_camera.pixelWidth-_screenBorder  && _rigidbody.velocity.x>0))
+        {
+            _rigidbody.velocity=new Vector2(0, _rigidbody.velocity.y);
+        }
+
+        if ((screenPosition.y < _screenBorder && _rigidbody.velocity.y < 0) ||
+           (screenPosition.y > _camera.pixelHeight-_screenBorder && _rigidbody.velocity.y > 0))
+        {
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
+        }
+
+
+
     }
 
     //ostatak kretanja implementiran je pomocu Player Input biblioteke
