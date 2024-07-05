@@ -41,3 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Backgorund
+    uniqueID: 1658286511
+    locked: 0
+  - name: Collectable
+    uniqueID: 4030400841
+    locked: 0
+  - name: Bullet
+    uniqueID: 2246042765
+    locked: 0
+  - name: Player
+    uniqueID: 4045118385
+    locked: 0
+  - name: Enemy
+    uniqueID: 1939687615
+    locked: 0
