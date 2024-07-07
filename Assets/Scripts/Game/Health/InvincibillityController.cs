@@ -7,23 +7,25 @@ public class InvincibillityController : MonoBehaviour
 
 
     private HealthContoller _healthController;
+    private SpriteFlash _spriteFlash;
 
 
     private void Awake()
     {
         _healthController = GetComponent<HealthContoller>();
+        _spriteFlash = GetComponent<SpriteFlash>();
     }
 
-    public void StartInvincibillity(float invincibillityDuration)
+    public void StartInvincibillity(float invincibillityDuration, Color flashColor, int numberOfFlashes)
     {
 
-        StartCoroutine(InvincibillityCoroutine(invincibillityDuration));
+        StartCoroutine(InvincibillityCoroutine(invincibillityDuration,flashColor,numberOfFlashes));
     }
 
-    private IEnumerator InvincibillityCoroutine(float invincibillityDuration)
+    private IEnumerator InvincibillityCoroutine(float invincibillityDuration, Color flashColor, int numberOfFlashes)
     {
         _healthController.IsInvincible = true;
-        yield return new WaitForSeconds(invincibillityDuration);
+        yield return _spriteFlash.FlashCoroutine(invincibillityDuration, flashColor, numberOfFlashes);
         _healthController.IsInvincible=false;
     }
 
