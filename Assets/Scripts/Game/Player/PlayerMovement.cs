@@ -11,6 +11,7 @@ using UnityEngine.InputSystem;
         private Vector2 _smoothedMovementInput;
         private Vector2 _movementInputSmoothVelocity;
         private Camera _camera;
+    private Animator _animator;
 
     [SerializeField]
     private float _rotationSpeed;
@@ -28,13 +29,23 @@ using UnityEngine.InputSystem;
             //nalazi komponentu rigidBody2D s naseg objekta
             _rigidbody = GetComponent<Rigidbody2D>();
             _camera = Camera.main;
+        _animator = GetComponent<Animator>();
         }
 
         private void FixedUpdate()
     {
         SetPlayerVelocity();
         RotateInDirectionOfInput();
+        SetAnimation();
     }
+
+
+    private void SetAnimation()
+    {
+        bool isMoving = _movementInput != Vector2.zero;
+        _animator.SetBool("IsMoving", isMoving);
+    }
+
 
     //podesavanja kretanja za fiksan vremenski period
     //koristimo Move iz Input System-a
